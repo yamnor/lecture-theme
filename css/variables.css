@@ -1,0 +1,136 @@
+/* Globals */
+
+:root {
+  --text-font: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --code-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+:root {
+  --red: #D32F2F;
+  --darkpink: #78002e;
+  --pink: #ad1457;
+  --lightpink: #e35183;
+  --purple: #7B1FA2;
+  --deeppurble: #512DA8;
+  --indigo: #303F9F;
+  --darkblue: #004c8c;
+  --blue: #0277bd;
+  --skyblue: #58a5f0;
+  --lightblue: #3E95BA;
+  --cyan: #0097A7;
+  --teal: #00796B;
+  --green: #388E3C;
+  --lightgreen: #689F38;
+  --lime: #AFB42B;
+  --yellow: #FBC02D;
+  --amber: #FFA000;
+  --orange: #F57C00;
+  --deeporange: #E64A19;
+  --brown: #5D4037;
+  --lightgrey: #f9f9fa;
+  --grey: #bdbdbd;
+  --darkgrey: #757575;
+  --bluegrey: #455A64;
+  --lightblack: #4f5b62;
+  --black: #263238;
+  --darkblack: #000a12;
+  --white: #ffffff;
+
+  --black00: #f7f7f7;
+  --black01: #eceff1;
+  --black02: #cfd8dc;
+  --black03: #b0bec5;
+  --black04: #90a8ae;
+  --black05: #78909c;
+  --black06: #607d8b;
+  --black07: #546e7a;
+  --black08: #455a64;
+  --black09: #37474f;
+}
+
+.note,
+.slide,
+.scroll {
+  --fg: var(--black);
+  --bg: var(--white);
+
+  --em-color: var(--lightblue);
+  --em-strong-color: var(--red);
+
+  --primary: var(--lightblue);
+
+  --sidebar-fg: var(--black);
+  --sidebar-bg: var(--lightgrey);
+  --sidebar-non-existant: var(--grey);
+  --sidebar-active: var(--primary);
+  --sidebar-spacer: var(--sidebar-bg);
+
+  --border-color: var(--grey);
+
+  --scrollbar: var(--black02);
+
+  --icons: var(--grey);
+  --icons-hover: var(--black);
+
+  --links: var(--pink);
+
+  --inline-code-color: var(--black);
+
+  --theme-popup-bg: var(--lightgrey);
+  --theme-popup-border: var(--grey);
+  --theme-hover: var(--black01);
+
+  --quote-bg: var(--black01);
+
+  --table-header-bg: var(--black02);
+  --table-border-color: var(--black01);
+  --table-alternate-bg: var(--black01);
+
+  --searchbar-border-color: var(--grey);
+  --searchbar-bg: var(--lightgrey);
+  --searchbar-fg: var(--black);
+  --searchbar-shadow-color: var(--grey);
+  --searchresults-header-fg: var(--darkgrey);
+  --searchresults-border-color: var(--grey);
+  --searchresults-li-bg: var(--black02);
+  --search-mark-bg: var(--yellow);
+}
+
+.note,
+.scroll {
+  --content-max-width: 800px;
+  font-size: 17px;
+}
+
+.slide {
+  --content-max-width: 95%;
+  font-size: 4vh;
+}
+
+.slide .menu-title {
+  visibility: hidden;
+}
+
+.slide main {
+  line-height: 1.75em;
+}
+
+.slide main h1,
+.slide h2 {
+  margin-top: 0;
+  font-size: 1.25rem;
+  padding-bottom: 0.1em;
+  border-bottom: 10px solid var(--black01);
+  position: relative;
+}
+
+.slide main h1::before,
+.slide h2::before,
+.slide h4::before,
+.slide h5::before {
+  display: none;
+}
+
+.slide .bottom {
+  margin-bottom: 100vh;
+}

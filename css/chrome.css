@@ -1,0 +1,739 @@
+/* CSS for UI elements (a.k.a. chrome) */
+
+@import 'variables.css';
+
+html {
+  scrollbar-color: var(--scrollbar) var(--bg);
+}
+
+/*
+    body-container is necessary because mobile browsers don't seem to like
+    overflow-x on the body tag when there is a <meta name="viewport"> tag.
+*/
+#body-container {
+  /*
+        This is used when the sidebar pushes the body content off the side of
+        the screen on small screens. Without it, dragging on mobile Safari
+        will want to reposition the viewport in a weird way.
+    */
+  overflow-x: clip;
+}
+
+/**** Links ****/
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#searchresults a,
+a > .hljs {
+  color: var(--links);
+}
+
+/**** Menu Bar ****/
+
+#menu-bar,
+#menu-bar-hover-placeholder {
+  font-size: 16px;
+  z-index: 101;
+  margin: auto calc(0px - var(--page-padding));
+}
+
+#menu-bar {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: var(--bg);
+  border-block-end-color: var(--bg);
+  border-block-end-width: 1px;
+  border-block-end-style: solid;
+}
+
+#menu-bar.sticky,
+.js #menu-bar-hover-placeholder:hover+#menu-bar,
+.js #menu-bar:hover,
+.js.sidebar-visible #menu-bar {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0 !important;
+}
+
+#menu-bar-hover-placeholder {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  height: var(--menu-bar-height);
+}
+
+#menu-bar.bordered {
+  border-block-end-color: var(--table-border-color);
+}
+
+#menu-bar label,
+#menu-bar button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+#menu-bar i,
+#menu-bar .icon-button,
+#menu-bar svg {
+  position: relative;
+  padding: 0 8px;
+  z-index: 10;
+  line-height: var(--menu-bar-height);
+  cursor: pointer;
+  transition: color 0.5s;
+}
+
+@media only screen and (max-width: 420px) {
+  #menu-bar i,
+  #menu-bar .icon-button,
+  #menu-bar svg {
+    padding: 0 5px;
+  }
+}
+
+.icon-button {
+  border: none;
+  background: none;
+  padding: 0;
+  color: inherit;
+}
+
+.icon-button i ,
+.icon-button svg {
+  margin: 0;
+}
+
+.left-buttons {
+  display: flex;
+  margin: 0 5px;
+}
+
+.right-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 10px;
+}
+
+.right-buttons a {
+  display: block;
+  text-decoration: none;
+  padding: 0 8px;
+}
+
+.right-buttons a.active {
+  color: var(--fg);
+}
+
+.checked #check-toggle {
+  color: var(--red);
+}
+
+.no-js .left-buttons button {
+  display: none;
+}
+
+.menu-title {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: normal;
+  line-height: var(--menu-bar-height);
+  text-align: center;
+  margin: 0;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.menu-title a {
+  text-decoration: none;
+  color: inherit;
+  opacity: 0.8;
+}
+
+.js .menu-title {
+  /* cursor: pointer; */
+}
+
+.menu-bar,
+.menu-bar:visited,
+.nav-chapters,
+.nav-chapters:visited,
+.mobile-nav-chapters,
+.mobile-nav-chapters:visited,
+.menu-bar .icon-button,
+.menu-bar a i {
+  color: var(--icons);
+}
+
+.menu-bar a {
+  color: inherit;
+}
+
+.menu-bar i:hover,
+.menu-bar .icon-button:hover,
+.nav-chapters:hover,
+.mobile-nav-chapters i:hover {
+  color: var(--icons-hover);
+}
+
+/**** Pagination ****/
+
+.nav-chapters {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  margin: 0;
+  max-width: 100px;
+  min-width: 50px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+
+  transition: color 0.5s, background-color 0.5s;
+}
+
+.nav-chapters:hover {
+  text-decoration: none;
+  background-color: var(--theme-hover);
+  transition: background-color 0.15s, color 0.15s;
+  opacity: 0.5;
+}
+
+.nav-wrapper {
+  margin-block-start: 50px;
+  display: none;
+}
+
+.mobile-nav-chapters {
+  font-size: 2.5em;
+  text-align: center;
+  text-decoration: none;
+  width: 100px;
+  border-radius: 5px;
+  padding: 0.5em 0;
+  background-color: var(--sidebar-bg);
+}
+
+/* Only Firefox supports flow-relative values */
+.previous {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  float: left;
+}
+
+/* Only Firefox supports flow-relative values */
+.next {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  float: right;
+  right: var(--page-padding);
+}
+
+@media only screen and (max-width: 1080px) {
+  .nav-wide-wrapper {
+    display: none;
+  }
+
+  .nav-wrapper {
+    display: block;
+  }
+}
+
+/* sidebar-visible */
+@media only screen and (max-width: 1380px) {
+  #sidebar-toggle-anchor:checked~.page-wrapper .nav-wide-wrapper {
+    display: none;
+  }
+
+  #sidebar-toggle-anchor:checked~.page-wrapper .nav-wrapper {
+    display: block;
+  }
+}
+
+/**** Inline Code ****/
+
+:not(pre)>.hljs {
+  display: inline;
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+}
+
+:not(pre):not(a)>.hljs {
+  color: var(--inline-code-color);
+  overflow-x: initial;
+}
+
+a:hover>.hljs {
+  text-decoration: underline;
+}
+
+pre {
+  position: relative;
+}
+
+pre>.buttons {
+  position: absolute;
+  z-index: 100;
+  right: 0px;
+  top: 2px;
+  margin: 0px;
+  padding: 2px 0px;
+
+  color: var(--sidebar-fg);
+  cursor: pointer;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.1s linear, opacity 0.1s linear;
+}
+
+pre:hover>.buttons {
+  visibility: visible;
+  opacity: 1
+}
+
+pre>.buttons :hover {
+  color: var(--bg);
+  border-color: var(--sidebar-active);
+  background-color: var(--sidebar-active);
+  opacity: 0.5;
+}
+
+pre>.buttons i {
+  margin-inline-start: 8px;
+}
+
+pre>.buttons button {
+  cursor: inherit;
+  margin: 0px 5px;
+  padding: 3px 5px;
+  font-size: 14px;
+
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 4px;
+  border-color: var(--icons);
+  background-color: var(--theme-popup-bg);
+  transition: 100ms;
+  transition-property: color, border-color, background-color;
+  color: var(--icons);
+}
+
+@media (pointer: coarse) {
+  pre>.buttons button {
+    /* On mobile, make it easier to tap buttons. */
+    padding: 0.3em 1em;
+  }
+
+  .sidebar-resize-indicator {
+    /* Hide resize indicator on devices with limited accuracy */
+    display: none;
+  }
+}
+
+pre>code {
+  display: block;
+  padding: 1em;
+}
+
+/* FIXME: ACE editors overlap their buttons because ACE does absolute
+   positioning within the code block which breaks padding. The only solution I
+   can think of is to move the padding to the outer pre tag (or insert a div
+   wrapper), but that would require fixing a whole bunch of CSS rules.
+*/
+.hljs.ace_editor {
+  padding: 0;
+}
+
+pre>.result {
+  margin-block-start: 10px;
+}
+
+.result-no-output {
+  font-style: italic;
+}
+
+/**** Tooltip for Copy Code ****/
+
+.tooltiptext {
+  position: absolute;
+  visibility: hidden;
+  color: #fff;
+  background-color: #333;
+  transform: translateX(-50%);
+  /* Center by moving tooltip 50% of its width left */
+  left: -8px;
+  /* Half of the width of the icon */
+  top: -35px;
+  font-size: 0.9em;
+  font-style: normal !important;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 8px;
+  margin: 5px;
+  z-index: 1000;
+  opacity: 0.5;
+}
+
+.tooltipped .tooltiptext {
+  visibility: visible;
+}
+
+/**** Search ****/
+
+#searchresults a {
+  text-decoration: none;
+}
+
+mark {
+  border-radius: 2px;
+  padding-block-start: 0;
+  padding-block-end: 1px;
+  padding-inline-start: 3px;
+  padding-inline-end: 3px;
+  margin-block-start: 0;
+  margin-block-end: -1px;
+  margin-inline-start: -3px;
+  margin-inline-end: -3px;
+  background-color: var(--search-mark-bg);
+  transition: background-color 300ms linear;
+  cursor: pointer;
+}
+
+mark.fade-out {
+  background-color: rgba(0, 0, 0, 0) !important;
+  cursor: auto;
+}
+
+.searchbar-outer {
+  margin-inline-start: auto;
+  margin-inline-end: auto;
+  max-width: var(--content-max-width);
+}
+
+#searchbar {
+  font-family: var(--text-font);
+  font-size: 16px;
+  padding: 0.5em 1.0em 0.5em 2.5em;
+  border: 1px solid var(--searchbar-border-color);
+  border-radius: 20px;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>') 1em center/0.8em no-repeat;
+  background-color: var(--searchbar-bg);
+  color: var(--searchbar-fg);
+  width: 100%;
+}
+
+#searchbar:focus,
+#searchbar.active {
+  outline: none;
+}
+
+.searchresults-header {
+  font-weight: bold;
+  font-size: 1em;
+  padding-block-start: 18px;
+  padding-block-end: 0;
+  padding-inline-start: 5px;
+  padding-inline-end: 0;
+  color: var(--searchresults-header-fg);
+}
+
+.searchresults-outer {
+  margin-inline-start: auto;
+  margin-inline-end: auto;
+  max-width: var(--content-max-width);
+  border-block-end: 1px dashed var(--searchresults-border-color);
+}
+
+ul#searchresults {
+  list-style: none;
+  padding-inline-start: 20px;
+}
+
+ul#searchresults li {
+  margin: 10px 0px;
+  padding: 2px;
+  border-radius: 2px;
+}
+
+ul#searchresults li.focus {
+  background-color: var(--searchresults-li-bg);
+}
+
+ul#searchresults span.teaser {
+  display: block;
+  clear: both;
+  margin-block-start: 5px;
+  margin-block-end: 0;
+  margin-inline-start: 20px;
+  margin-inline-end: 0;
+  font-size: 0.8em;
+}
+
+ul#searchresults span.teaser em {
+  font-weight: bold;
+  font-style: normal;
+}
+
+/**** Sidebar ****/
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--sidebar-width);
+  font-size: 14px;
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  background-color: var(--sidebar-bg);
+  color: var(--sidebar-fg);
+}
+
+.sidebar-resizing {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.no-js .sidebar,
+.js:not(.sidebar-resizing) .sidebar {
+  transition: transform 0.3s;
+  /* Animation: slide away */
+}
+
+.sidebar code {
+  line-height: 2em;
+}
+
+.sidebar .sidebar-scrollbox {
+  overflow-y: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px 10px;
+}
+
+.sidebar .sidebar-resize-handle {
+  position: absolute;
+  cursor: col-resize;
+  width: 0;
+  right: calc(var(--sidebar-resize-indicator-width) * -1);
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-resize-handle .sidebar-resize-indicator {
+  width: 100%;
+  height: 12px;
+  background-color: var(--icons);
+  margin-inline-start: var(--sidebar-resize-indicator-space);
+}
+
+.js .sidebar .sidebar-resize-handle {
+  cursor: col-resize;
+  width: calc(var(--sidebar-resize-indicator-width) - var(--sidebar-resize-indicator-space));
+}
+
+/* sidebar-hidden */
+#sidebar-toggle-anchor:not(:checked)~.sidebar {
+  transform: translateX(calc(0px - var(--sidebar-width) - var(--sidebar-resize-indicator-width)));
+  z-index: -1;
+}
+
+.sidebar::-webkit-scrollbar {
+  background: var(--sidebar-bg);
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: var(--scrollbar);
+}
+
+/* sidebar-visible */
+#sidebar-toggle-anchor:checked~.page-wrapper {
+  transform: translateX(calc(var(--sidebar-width) + var(--sidebar-resize-indicator-width)));
+}
+
+@media only screen and (min-width: 620px) {
+  #sidebar-toggle-anchor:checked~.page-wrapper {
+    transform: none;
+    margin-inline-start: calc(var(--sidebar-width) + var(--sidebar-resize-indicator-width));
+  }
+}
+
+/**** Sidebar TOCs ****/
+
+.chapter {
+  font-size: 14px;
+  list-style: none outside none;
+  padding-inline-start: 0;
+  line-height: 2.2em;
+}
+
+.chapter ol {
+  padding-right: 0 !important;
+  width: 100%;
+}
+
+.chapter li {
+  display: flex;
+  color: var(--sidebar-non-existant);
+}
+
+.chapter li.chapter-item {
+  line-height: 1.5em;
+  margin-block-start: 0.6em;
+  padding-right: 10px;
+}
+
+.chapter li:has(> a.active) {
+  border-right: 5px solid var(--sidebar-active);
+}
+
+.chapter li a {
+  display: block;
+  padding: 0;
+  text-decoration: none;
+  color: var(--sidebar-fg);
+}
+
+.chapter li a:hover,
+.chapter li a.active {
+  color: var(--sidebar-active);
+}
+
+.chapter li > a.toggle {
+  cursor: pointer;
+  display: block;
+  margin-inline-start: auto;
+  padding: 0 10px;
+  user-select: none;
+  color: var(--links);
+  opacity: 0.5;
+}
+
+.chapter li > a.toggle div {
+  transition: transform 0.5s;
+}
+
+/* collapse the section */
+.chapter li:not(.expanded)+li > ol {
+  display: none;
+}
+
+.chapter li.expanded>a.toggle div {
+  transform: rotate(90deg);
+}
+
+.chapter li.part-title {
+  color: var(--sidebar-fg);
+  margin: 5px 0px;
+  font-weight: bold;
+}
+
+.spacer {
+  width: 100%;
+  height: 3px;
+  margin: 5px 0px;
+}
+
+.chapter .spacer {
+  background-color: var(--sidebar-spacer);
+}
+
+@media (-moz-touch-enabled: 1),
+(pointer: coarse) {
+  .chapter li a {
+    padding: 5px 0;
+  }
+
+  .spacer {
+    margin: 10px 0;
+  }
+}
+
+.section {
+  list-style: none outside none;
+  padding-inline-start: 20px;
+  line-height: 1.9em;
+}
+
+/**** Theme Menu Popup ****/
+
+.theme-popup {
+  position: absolute;
+  left: 5px;
+  top: var(--menu-bar-height);
+  z-index: 1000;
+  border-radius: 5px;
+  font-size: 0.9em;
+  color: var(--fg);
+  background: var(--theme-popup-bg);
+  border: 1px solid var(--theme-popup-border);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: none;
+  /* Don't let the children's background extend past the rounded corners. */
+  overflow: hidden;
+}
+
+.theme-popup hr {
+  margin: 0;
+  border: 0;
+  border-top: 1px solid var(--theme-popup-border);
+}
+
+.theme-popup .default {
+  color: var(--icons);
+}
+
+.theme-popup .theme {
+  width: 80px;
+  border: 0;
+  margin: 0;
+  padding: 0 10px;
+  line-height: 30px;
+  white-space: nowrap;
+  cursor: pointer;
+  color: var(--icons);
+  background: inherit;
+}
+
+.theme-popup .theme-selected {
+  color: var(--text-color)
+}
+
+.theme-popup .theme:hover {
+  background-color: var(--theme-hover);
+}
+
+/**** Lucide SVG Icons ****/
+
+.lucide {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

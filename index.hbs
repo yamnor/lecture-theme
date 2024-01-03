@@ -1,0 +1,418 @@
+<!DOCTYPE HTML>
+<html lang="ja" class="{{ default_theme }}">
+<head>
+  <!-- Book generated using mdBook -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  {{#if is_print }}
+  <meta name="robots" content="noindex">
+  {{/if}}
+
+  {{#if base_url}}
+  <base href="{{ base_url }}">
+  {{/if}}
+
+  <title>{{ title }}</title>
+  <meta name="description" content="{{ description }}">
+  <meta name="theme-color" content="#ffffff">
+
+  {{!-- Favicon --}}
+  <link rel="icon" href="/favicon.png" sizes="any">
+  <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml">
+
+  {{!-- Stylesheets --}}
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/general.css">
+  <link rel="stylesheet" href="css/chrome.css">
+  <link rel="stylesheet" href="css/print.css" media="print">
+
+  {{!-- Font Awesome v4.7.0 --}}
+  {{!-- https://fontawesome.com/v4/icons/ --}}
+  <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+
+  {{!-- Highlight.js Stylesheets --}}
+  <link rel="stylesheet" href="highlight.css">
+  <link rel="stylesheet" href="tomorrow-night.css">
+  <link rel="stylesheet" href="ayu-highlight.css">
+
+  {{!-- Katex v0.16.9 (2023-10-02) --}}
+  {{!-- https://katex.org --}}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous"/>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ],
+        throwOnError : false
+      });
+    });
+  </script>
+
+</head>
+
+<body class="sidebar-visible no-js">
+  <div id="body-container">
+    {{!-- Provide site root to javascript --}}
+    <script>
+      var path_to_root = "";
+      var default_theme = "{{ default_theme }}";
+    </script>
+
+    {{!-- Work around some values being stored in localStorage wrapped in quotes --}}
+    <script>
+      try {
+        var theme = localStorage.getItem('mdbook-theme');
+        var sidebar = localStorage.getItem('mdbook-sidebar');
+        if (theme.startsWith('"') && theme.endsWith('"')) {
+          localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+        }
+        if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+          localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+        }
+      } catch (e) { }
+    </script>
+
+    {{!-- Set the theme before any content is loaded, prevents flash --}}
+    <script>
+      var theme;
+      try { theme = localStorage.getItem('mdbook-theme'); } catch (e) { }
+      if (theme === null || theme === undefined) { theme = default_theme; }
+      var html = document.querySelector('html');
+      html.classList.remove('{{ default_theme }}')
+      html.classList.add(theme);
+      var body = document.querySelector('body');
+      body.classList.remove('no-js')
+      body.classList.add('js');
+    </script>
+
+    <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+    {{!-- Hide / unhide sidebar before it is displayed --}}
+    <script>
+      var body = document.querySelector('body');
+      var sidebar = null;
+      var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+      if (document.body.clientWidth >= 1080) {
+        try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch (e) { }
+        sidebar = sidebar || 'visible';
+      } else {
+        sidebar = 'hidden';
+      }
+      sidebar_toggle.checked = sidebar === 'visible';
+      body.classList.remove('sidebar-visible');
+      body.classList.add("sidebar-" + sidebar);
+    </script>
+
+    {{!-- Sidebar --}}
+    <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+      <div class="sidebar-scrollbox">
+        {{#toc}}{{/toc}}
+      </div>
+      <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+        <div class="sidebar-resize-indicator"></div>
+      </div>
+    </nav>
+
+    {{!-- Track and set sidebar scroll position --}}
+    {{#unless is_print}}
+    <script>
+      var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+      sidebarScrollbox.addEventListener('click', function (e) {
+        if (e.target.tagName === 'A') {
+          sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+        }
+      }, { passive: true });
+      var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+      sessionStorage.removeItem('sidebar-scroll');
+      if (sidebarScrollTop) {
+        sidebarScrollbox.scrollTop = sidebarScrollTop;
+      } else {
+        var activeSection = document.querySelector('#sidebar .active');
+        if (activeSection) {
+          activeSection.scrollIntoView({ block: 'center' });
+        }
+      }
+    </script>
+    {{/unless}}
+
+    {{!-- svg icons --}}
+    {{!-- https://lucide.dev --}}
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:none;">
+      <symbol id="align-justify" viewBox="0 0 24 24"><line x1="3" x2="21" y1="6" y2="6"/><line x1="3" x2="21" y1="12" y2="12"/><line x1="3" x2="21" y1="18" y2="18"/></symbol>
+      <symbol id="settings" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol>
+      <symbol id="file-text" viewBox="0 0 24 24"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></symbol>
+      <symbol id="presentation" viewBox="0 0 24 24"><path d="M2 3h20"/><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3"/><path d="m7 21 5-5 5 5"/></symbol>
+      <symbol id="search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+      <symbol id="check-circle-2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></symbol>
+      <symbol id="gallery-horizontal-end" viewBox="0 0 24 24"><path d="M2 7v10"/><path d="M6 5v14"/><rect width="12" height="18" x="10" y="3" rx="2"/></symbol>
+      <symbol id="scroll" viewBox="0 0 24 24">><path d="M8 21h12a2 2 0 0 0 2-2v-2H10v2a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v3h4"/><path d="M19 17V5a2 2 0 0 0-2-2H4"/></symbol>
+      <symbol id="chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+      <symbol id="chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+      <symbol id="pen-square" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z"/></symbol>
+      <symbol id="graduation-cap" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></symbol>
+    </svg>
+
+    <div id="page-wrapper" class="page-wrapper">
+      {{!-- Page --}}
+      <div class="page">
+        <div id="menu-bar-hover-placeholder"></div>
+        <div id="menu-bar" class="menu-bar sticky">
+          <div class="left-buttons">
+            {{!-- show/hide sidebar --}}
+            <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="sidebar" aria-controls="sidebar">
+              <svg class="lucide"><use href="#align-justify"></svg>
+            </label>
+            {{!-- select theme --}}
+            <button id="theme-toggle" class="icon-button" type="button" title="select theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+              <svg class="lucide"><use href="#settings"></svg>
+            </button>
+            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+              {{!-- In print mode, go to the last visited page and change to the selected theme. --}}
+              {{#if is_print }}
+              <a href="" class="sheet">
+                <li role="none"><button role="menuitem" class="theme" id="note">
+                  <svg class="lucide"><use href="#file-text"></svg>
+                  note
+                </button></li>
+              </a>
+              <a href="" class="sheet">
+                <li role="none"><button role="menuitem" class="theme" id="slide">
+                  <svg class="lucide"><use href="#presentation"></svg>
+                  slide
+                </button></li>
+              </a>
+              <script>
+                var previousPageUrl = document.referrer;
+                if (previousPageUrl.includes('print.html')) {
+                  previousPageUrl = 'index.html';
+                }
+                var sheetElements = document.querySelectorAll('.sheet');
+                sheetElements.forEach(function(element) {
+                  element.href = previousPageUrl;
+                });
+              </script>
+              {{!-- In the normal mode, only the theme is selected. --}}
+              {{else}}
+              <li role="none"><button role="menuitem" class="theme" id="note">
+                <svg class="lucide"><use href="#file-text"></svg>
+                note
+              </button></li>
+              <li role="none"><button role="menuitem" class="theme" id="slide">
+                <svg class="lucide"><use href="#presentation"></svg>
+                slide
+              </button></li>
+              {{/if}}
+              <hr>
+              {{!-- When in the print mode, nothing special is done. --}}
+              {{#if is_print }}
+              <li role="none"><button role="menuitem" class="theme" id="scroll">
+                <svg class="lucide"><use href="#scroll"></svg>
+                scroll
+              </button></li>
+              {{!-- In normal mode, after moving to "print.html", the theme is set to "scroll". --}}
+              {{else}}
+              <a href="print.html">
+                <li role="none"><button role="menuitem" class="theme" id="scroll">
+                  <svg class="lucide"><use href="#scroll"></svg>
+                  scroll
+                </button></li>
+              </a>
+              {{/if}}
+            </ul>
+            {{!-- search --}}
+            <button id="search-toggle" class="icon-button" type="button" title="serach (Key: S)" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+              <svg class="lucide"><use href="#search"></svg>
+            </button>
+            {{!-- check answer --}}
+            <button id="check-toggle" class="icon-button" type="button" title="check answer (Key: C)" aria-expanded="false" aria-keyshortcuts="C" aria-controls="check-mode">
+              <svg class="lucide"><use href="#check-circle-2"></svg>
+            </button>
+          </div>
+
+          <h1 class="menu-title"><a href="index.html" class="icon-button">{{ book_title }}</a></h1>
+
+          <div class="right-buttons">
+          </div>
+        </div>
+
+        {{!-- check answer --}}
+        <script>
+          const button = document.getElementById('check-toggle');
+          function toggleCheck() {
+            document.querySelector('.page').classList.toggle('checked');
+          }
+          button.addEventListener('click', toggleCheck);
+          window.addEventListener('keydown', function (e) {
+            if (e.key === 'c' || e.key === 'C') {
+              toggleCheck();
+            }
+          });
+        </script>
+
+        {{!-- search --}}
+        <div id="search-wrapper" class="hidden">
+          <form id="searchbar-outer" class="searchbar-outer">
+            <input type="search" id="searchbar" name="searchbar" placeholder="この資料を検索" aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+          </form>
+          <div id="searchresults-outer" class="searchresults-outer hidden">
+            <div id="searchresults-header" class="searchresults-header"></div>
+            <ul id="searchresults">
+            </ul>
+          </div>
+        </div>
+
+        {{!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM --}}
+        <script>
+          document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+          document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+          Array.from(document.querySelectorAll('#sidebar a')).forEach(function (link) {
+            link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+          });
+        </script>
+
+        <div id="content" class="content">
+          <main>
+            {{!-- Main contents --}}
+            {{{ content }}}
+          </main>
+
+          {{!-- pagination for mobile --}}
+          <nav class="nav-wrapper" aria-label="Page navigation">
+            {{#previous}}
+            <a rel="prev" href="{{link}}" class="mobile-nav-chapters previous" title="戻る" aria-keyshortcuts="Left">
+              <svg class="lucide" style="width:24;height:24;stroke-width:3;"><use href="#chevron-left"></svg>
+            </a>
+            {{/previous}}
+
+            {{#next}}
+            <a rel="next prefetch" href="{{link}}" class="mobile-nav-chapters next" title="進む" aria-keyshortcuts="Right">
+              <svg class="lucide" style="width:24;height:24;stroke-width:3;"><use href="#chevron-right"></svg>
+            </a>
+            {{/next}}
+
+            <div style="clear: both"></div>
+          </nav>
+        </div>
+      </div>
+      {{!-- pagination --}}
+      <nav class="nav-wide-wrapper" aria-label="Page navigation">
+        {{#previous}}
+        <a rel="prev" href="{{link}}" class="nav-chapters previous" title="戻る" aria-keyshortcuts="Left">
+          <svg class="lucide" style="width:36;height:36;stroke-width:1;"><use href="#chevron-left"></svg>
+        </a>
+        {{/previous}}
+        {{#next}}
+        <a rel="next prefetch" href="{{link}}" class="nav-chapters next" title="進む" aria-keyshortcuts="Right">
+          <svg class="lucide" style="width:36;height:36;stroke-width:1;"><use href="#chevron-right"></svg>
+        </a>
+        {{/next}}
+      </nav>
+    </div>
+
+    {{#if live_reload_endpoint}}
+    <script>
+      const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const wsAddress = wsProtocol + "//" + location.host + "/" + "{{{live_reload_endpoint}}}";
+      const socket = new WebSocket(wsAddress);
+      socket.onmessage = function (event) {
+        if (event.data === "reload") {
+          socket.close();
+          location.reload();
+        }
+      };
+      window.onbeforeunload = function () {
+        socket.close();
+      }
+    </script>
+    {{/if}}
+
+    <script>
+      window.playground_copyable = true;
+    </script>
+
+    {{!-- search scripts --}}
+    <script src="elasticlunr.min.js"></script>
+    <script src="mark.min.js"></script>
+    <script src="searcher.js"></script>
+
+    {{!-- enable checkboxes --}}
+    <script>
+      Array.from(document.getElementsByTagName('input')).map(i => { if (i.type == "checkbox") {i.disabled = false}})
+    </script>
+
+    {{!-- basic scripts --}}
+    <script src="clipboard.min.js"></script>
+    <script src="highlight.js"></script>
+    <script src="book.js"></script>
+
+    {{#if is_print}}
+    {{!-- When in print mode, click on the TOC item in the sidebar --}}
+    {{!-- to go to the corresponding heading on the page. --}}
+    <script>
+      const chapterItems = document.querySelectorAll('.chapter-item');
+      chapterItems.forEach(item => {
+        const textContent = item.textContent.trim();
+        const link = item.querySelector('a');
+        if (link) {
+          link.href = `print.html#${encodeURIComponent(textContent)}`;
+          link.addEventListener('click', function(e) {
+            chapterItems.forEach(c => {
+              const a = c.querySelector('a');
+              if (a) {
+                a.classList.remove('active')
+              }
+            });
+            this.classList.add('active');
+          });
+        }
+      });
+      const headerItems = document.querySelectorAll('main h1, h2');
+      headerItems.forEach(item => {
+        const textContent = item.textContent.trim();
+        item.id = encodeURIComponent(textContent);
+        const link = item.querySelector('a');
+        if (link) {
+          link.href = `print.html#${encodeURIComponent(textContent)}`;
+        }
+      });
+    </script>
+    {{!-- When scrolling down the page, activate the item in the TOCSs --}}
+    {{!-- that corresponds to the top heading. --}}
+    <script>
+      var headlines = document.querySelectorAll('main h1, h2');
+      var links = document.querySelectorAll('.chapter-item a');
+      function setActiveLink() {
+        var topHeadline = null;
+        var minDistance = Infinity;
+        headlines.forEach(function(headline) {
+          var distance = headline.getBoundingClientRect().top;
+          if (distance < minDistance && distance >= 0) {
+            topHeadline = headline;
+            minDistance = distance;
+          }
+        });
+        links.forEach(function(link) {
+          if (topHeadline && link.getAttribute('href') === 'print.html#' + topHeadline.id) {
+            link.classList.add('active');
+            link.scrollIntoView({ block: 'center' });
+          } else {
+            link.classList.remove('active');
+          }
+        });
+      }
+      window.addEventListener('scroll', setActiveLink);
+      setActiveLink();
+    </script>
+    {{/if}}
+
+  </div>
+</body>
+
+</html>
