@@ -177,16 +177,20 @@
               {{!-- In print mode, go to the last visited page and change to the selected theme. --}}
               {{#if is_print }}
               <a href="" class="sheet">
+              {{/if}}
                 <li role="none"><button role="menuitem" class="theme" id="note">
                   <svg class="lucide"><use href="#file-text"></svg>
                   note
                 </button></li>
+              {{#if is_print }}
               </a>
               <a href="" class="sheet">
+              {{/if}}
                 <li role="none"><button role="menuitem" class="theme" id="slide">
                   <svg class="lucide"><use href="#presentation"></svg>
                   slide
                 </button></li>
+              {{#if is_print }}
               </a>
               <script>
                 var previousPageUrl = document.referrer;
@@ -198,33 +202,18 @@
                   element.href = previousPageUrl;
                 });
               </script>
-              {{!-- In the normal mode, only the theme is selected. --}}
-              {{else}}
-              <li role="none"><button role="menuitem" class="theme" id="note">
-                <svg class="lucide"><use href="#file-text"></svg>
-                note
-              </button></li>
-              <li role="none"><button role="menuitem" class="theme" id="slide">
-                <svg class="lucide"><use href="#presentation"></svg>
-                slide
-              </button></li>
               {{/if}}
               <hr>
-              {{!-- When in the print mode, nothing special is done. --}}
-              {{#if is_print }}
-              <li role="none"><button role="menuitem" class="theme" id="scroll">
-                <svg class="lucide"><use href="#scroll"></svg>
-                scroll
-              </button></li>
-              {{!-- In normal mode, after moving to "print.html", the theme is set to "scroll". --}}
-              {{else}}
+              {{#unless is_print }}
               <a href="print.html">
+              {{/unless}}
                 <li role="none"><button role="menuitem" class="theme" id="scroll">
                   <svg class="lucide"><use href="#scroll"></svg>
                   scroll
                 </button></li>
+              {{#unless is_print }}
               </a>
-              {{/if}}
+              {{/unless}}
             </ul>
             {{!-- search --}}
             <button id="search-toggle" class="icon-button" type="button" title="serach (Key: S)" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
