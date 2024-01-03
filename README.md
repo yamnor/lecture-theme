@@ -2,6 +2,8 @@
 
 This repository provides a specialized [mdBook](https://github.com/rust-lang/mdBook) theme tailored for online course materials.
 
+![](https://i.gyazo.com/3008692652a0c8b5e0a5b0c0ef169b6c.png)
+
 ## Installation
 
 1. Clone this repository.
