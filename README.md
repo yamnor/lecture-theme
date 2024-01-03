@@ -1,6 +1,6 @@
-# lecture-theme: mdBook Theme for Online Courses
+# lecture-theme: mdBook theme for online courses
 
-This repository provides a specialized mdBook theme tailored for online course materials. 
+This repository provides a specialized [mdBook](https://github.com/rust-lang/mdBook) theme tailored for online course materials.
 
 ## Installation
 
